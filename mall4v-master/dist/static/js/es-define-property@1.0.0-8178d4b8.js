@@ -1,0 +1,1 @@
+import{g as n}from"./get-intrinsic@1.2.4-25c259ca.js";var r,t;function s(){if(t)return r;t=1;var i=n,e=i("%Object.defineProperty%",!0)||!1;if(e)try{e({},"a",{value:1})}catch(a){e=!1}return r=e,r}export{s as r};
