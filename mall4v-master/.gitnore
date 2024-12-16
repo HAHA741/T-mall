@@ -1,0 +1,65 @@
+# Java Spring
+# 编译输出的文件
+/target/
+/build/
+
+# IntelliJ IDEA 的项目配置
+.idea/
+
+# Eclipse 的项目配置
+/.project
+/.classpath
+/.settings/
+
+# Maven 本地仓库
+/.m2/
+
+# Gradle 配置文件
+/.gradle/
+build/
+
+# Java class 文件
+*.class
+
+# 日志文件
+*.log
+
+# 其他可能的文件
+.DS_Store
+*.iml
+*.bak
+*.swp
+
+# Vue 项目
+# Node.js 模块
+/node_modules/
+
+# npm 缓存
+.npm/
+
+# 构建输出文件
+/dist/
+/build/
+
+# 编译缓存
+/.nuxt/
+
+# VSCode 项目配置
+.vscode/
+
+# 编辑器临时文件
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Windows 系统文件
+Thumbs.db
+
+# macOS 系统文件
+.DS_Store
+
+# 环境变量文件
+.env
+.env.local
+.env.*.local
