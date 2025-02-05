@@ -1,17 +1,17 @@
 package com.yami.shop.common.config;
 
 import org.springframework.stereotype.Component;
-
+//自定义微信支付方法
 @Component
 public class WxPayConfig {
 
     // 微信支付相关配置参数
-    private String appId = "your-app-id"; // 微信公众账号ID
-    private String mchId = "your-mch-id"; // 商户号
-    private String apiV3Key = "your-api-v3-key"; // 微信支付V3密钥
-    private String privateKeyPath = "/path/to/apiclient_key.pem"; // 商户私钥路径
-    private String certificatePath = "/path/to/apiclient_cert.pem"; // 商户证书路径
-    private String notifyUrl = "https://your-domain.com/pay/notify"; // 微信支付异步通知回调地址
+    private String appId = "wx0a05280b97905c00"; // 微信公众账号ID
+    private String mchId = "1703514380"; // 商户号
+    private String apiV3Key = "G6m9KvT2sQzJ8aW1xB5dR0cP4oNlU7eH"; // 微信支付V3密钥
+    private String privateKeyPath = "/opt/path/apiclient_key.pem"; // 商户私钥路径
+    private String certificatePath = "/opt/path/apiclient_cert.pem"; // 商户证书路径
+    private String notifyUrl = "http://49.232.152.51"; // 微信支付异步通知回调地址
 
     // Getter and Setter方法
 
