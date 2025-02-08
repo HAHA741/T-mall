@@ -12,6 +12,7 @@ package com.yami.shop.api.controller;
 
 import com.yami.shop.bean.app.param.PayParam;
 import com.yami.shop.bean.pay.PayInfoDto;
+import com.yami.shop.model.PayParamData;
 import com.yami.shop.security.api.model.YamiUser;
 import com.yami.shop.security.api.util.SecurityUtils;
 import com.yami.shop.service.PayService;
@@ -58,15 +59,18 @@ public class PayController {
      */
     @PostMapping("/normalPay")
     @Operation(summary = "根据订单号进行支付" , description = "根据订单号进行支付")
-    public ServerResponseEntity<Boolean> normalPay(@RequestBody PayParam payParam) {
+    public ServerResponseEntity<PayParamData> normalPay(@RequestBody PayParam payParam) {
 
         YamiUser user = SecurityUtils.getUser();
         String userId = user.getUserId();
+        String openId = user.getOpenId();
         PayInfoDto pay = payService.pay(userId, payParam);
 
         try {
+            String orderNumbers = payParam.getOrderNumbers();
             //openId 用户的唯一标识,amount 指定金额
-             paymentService.unifiedOrder("1","1",30);
+            PayParamData payParamData  = paymentService.unifiedOrder(openId,"1",30,orderNumbers);
+            return ServerResponseEntity.success(payParamData);
         } catch (Exception e) {
             e.printStackTrace();
 //            return "Error: " + e.getMessage();
@@ -74,7 +78,7 @@ public class PayController {
 
         // 根据内部订单号更新order settlement
         payService.paySuccess(pay.getPayNo(), "");
-
-        return ServerResponseEntity.success(true);
+        PayParamData payParamData = new PayParamData();
+        return ServerResponseEntity.success(payParamData);
     }
 }

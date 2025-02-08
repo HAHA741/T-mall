@@ -461,15 +461,24 @@ const normalPay = (orderNumbers) => {
     .then(({ data }) => {
       uni.hideLoading()
       if (data) {
-        uni.showToast({
-          title: '模拟支付成功',
-          icon: 'none'
-        })
-        setTimeout(() => {
-          uni.navigateTo({
-            url: '/pages/pay-result/pay-result?sts=1&orderNumbers=' + orderNumbers
-          })
-        }, 1200)
+        wx.requestPayment( {...data,
+        success(){
+          console.log('成功',res)
+
+        },
+        fail(res){
+          console.log('失败',res)
+        }})
+
+        // uni.showToast({
+        //   title: '模拟支付成功',
+        //   icon: 'none'
+        // })
+        // setTimeout(() => {
+        //   uni.navigateTo({
+        //     url: '/pages/pay-result/pay-result?sts=1&orderNumbers=' + orderNumbers
+        //   })
+        // }, 1200)
       } else {
         uni.showToast({
           title: '支付失败！',

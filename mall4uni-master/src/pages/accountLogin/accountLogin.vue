@@ -80,10 +80,29 @@
 <script setup>
 import { encrypt } from '@/utils/crypto.js'
 
+
+let openId = ref("")
 /**
  * 生命周期函数--监听页面显示
  */
+
 onShow(() => {
+  wx.login({
+    success(res){
+      http.request({
+        url:"/loginByWX",
+        method:'post',
+        data:{
+          code:res.code
+        }
+      }).then((res)=>{
+        console.log(res,'数据')
+        openId.value = res.data.openId
+
+      })
+
+    }
+  })
   // 头部导航标题
   uni.setNavigationBarTitle({
     title: '用户登录'
@@ -127,7 +146,8 @@ const login = () => {
       method: 'post',
       data: {
         userName: principal.value,
-        passWord: encrypt(credentials.value)
+        passWord: encrypt(credentials.value),
+        openId:  openId.value
       }
     })
       .then(({ data }) => {

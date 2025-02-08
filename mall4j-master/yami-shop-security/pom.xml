@@ -19,4 +19,5 @@
 		<module>yami-shop-security-admin</module>
 		<module>yami-shop-security-common</module>
 	</modules>
+
 </project>

@@ -65,4 +65,9 @@ public class UserInfoInTokenBO {
      */
     private Long otherId;
 
+    /**
+     * openId
+     */
+    private String openId;
+
 }

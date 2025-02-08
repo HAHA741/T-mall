@@ -36,5 +36,9 @@ public class AuthenticationDTO {
     @NotBlank(message = "passWord不能为空")
     @Schema(description = "一般用作密码" , required = true)
     protected String passWord;
+    //openId
+
+
+    protected String openId;
 
 }
