@@ -461,14 +461,23 @@ const normalPay = (orderNumbers) => {
     .then(({ data }) => {
       uni.hideLoading()
       if (data) {
-        wx.requestPayment( {...data,
-        success(){
-          console.log('成功',res)
+        console.log(data,'data')
+        let {timeStamp,nonceStr,paySign,signType,timestamp,packageStr} = data
+        let payParams = {
+          timeStamp,
+          nonceStr,
+          paySign,
+          signType,
+          package:packageStr,
+          success(){
+            console.log('成功',res)
 
-        },
-        fail(res){
-          console.log('失败',res)
-        }})
+          },
+          fail(res){
+            console.log('失败',res)
+          }}
+          console.log(payParams,'支付参数')
+        wx.requestPayment( payParams)
 
         // uni.showToast({
         //   title: '模拟支付成功',

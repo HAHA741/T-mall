@@ -12,6 +12,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.KeyFactory;
@@ -80,11 +81,14 @@ public class WxPayServiceImpl implements PaymentService {
             Map<String, Object> responseMap = new Gson().fromJson(responseBody, Map.class);
             String payNonceStr = generateNonceStr();
             String packageStr = "prepay_id=" + responseMap.get("prepay_id")  ;
-            String data = "appid="+wxPayConfig.getAppId()+ "timeStamp=" + timestamp + "&nonceStr=" + payNonceStr + "&package=" + packageStr;
-            String paySign = generatePaySign(data);
+//            String data = "appid="+wxPayConfig.getAppId()+ "timeStamp=" + timestamp + "&nonceStr=" + payNonceStr + "&package=" + packageStr;
+//            String paySign = generatePaySign(data);
+//            String paySign = generatePaySign(wxPayConfig.getAppId(), timestamp, payNonceStr, packageStr);
+            String paySign = generatePaySign("wx2421b1c4370ec43b", "1554208460", "593BEC0C930BF1AFEB40B4A08C8FB242", "prepay_id=wx201410272009395522657a690389285100");
+            System.out.println("paySign: " + paySign);
             PayParamData payParamData = new PayParamData();
             payParamData.setPaySign(paySign);
-            payParamData.setTimestamp(timestamp);
+            payParamData.setTimeStamp(timestamp);
             payParamData.setSignType("RSA");
             payParamData.setNonceStr(payNonceStr);
             payParamData.setPackageStr(packageStr);
@@ -96,11 +100,6 @@ public class WxPayServiceImpl implements PaymentService {
 //            responseData.put("timestamp", timestamp);
 //            requestData.put("signType","RSA");
 //            return (Map<String,Object>) requestData;
-
-
-
-
-
             return payParamData;
         }
     }
@@ -125,15 +124,36 @@ public class WxPayServiceImpl implements PaymentService {
         return KeyFactory.getInstance("RSA").generatePrivate(keySpec);
     }
 
-    public  String generatePaySign(String data) throws Exception {
+//    public  String generatePaySign(String data) throws Exception {
+//        PrivateKey priKey = loadPrivateKey(wxPayConfig.getPrivateKeyPath());
+//        // 用私钥进行签名
+//        Signature signature = Signature.getInstance("SHA256withRSA");
+//        signature.initSign(priKey);
+//        signature.update(data.getBytes("UTF-8"));
+//
+//        byte[] signedBytes = signature.sign();
+//        return Base64.getEncoder().encodeToString(signedBytes);
+//    }
+    public  String generatePaySign(String appId, String timeStamp, String nonceStr, String prepayId) throws Exception {
+        String message = String.format("%s\n%s\n%s\n%s\n", appId, timeStamp, nonceStr, prepayId);
+        System.out.println("message: " + message);
+        return signWithRSA(message);
+    }
+    private  String signWithRSA(String message) throws Exception {
+        // 1. 获取私钥对象
+//        byte[] keyBytes = Base64.getDecoder().decode(privateKey.replace("-----BEGIN PRIVATE KEY-----", "").replace("-----END PRIVATE KEY-----", "").replaceAll("\\s+", ""));
+//        PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(keyBytes);
+//        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+//        PrivateKey priKey = keyFactory.generatePrivate(keySpec);
         PrivateKey priKey = loadPrivateKey(wxPayConfig.getPrivateKeyPath());
-        // 用私钥进行签名
+
+        // 2. 进行签名
         Signature signature = Signature.getInstance("SHA256withRSA");
         signature.initSign(priKey);
-        signature.update(data.getBytes("UTF-8"));
+        signature.update(message.getBytes(StandardCharsets.UTF_8));
 
-        byte[] signedBytes = signature.sign();
-        return Base64.getEncoder().encodeToString(signedBytes);
+        // 3. Base64 编码返回签名
+        return Base64.getEncoder().encodeToString(signature.sign());
     }
 
     // 2. 生成随机字符串（32位）

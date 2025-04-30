@@ -12,6 +12,8 @@ public class WxPayConfig {
     ///opt/path/apiclient_key.pem"
     private String privateKeyPath = "D:/opt/apiclient_key.pem"; // 商户私钥路径
 //    /opt/path/apiclient_cert.pem
+    private String privateKeyTestPath = "D:/opt/apiclient_test_key.pem"; // 商户私钥路径
+
     private String certificatePath = "D:/opt/apiclient_cert.pem"; // 商户证书路径
     private String notifyUrl = "http://49.232.152.51"; // 微信支付异步通知回调地址
 
@@ -44,6 +46,10 @@ public class WxPayConfig {
     public String getPrivateKeyPath() {
         return privateKeyPath;
     }
+    public String getPrivateKeyTestPath() {
+        return privateKeyTestPath;
+    }
+
 
     public void setPrivateKeyPath(String privateKeyPath) {
         this.privateKeyPath = privateKeyPath;

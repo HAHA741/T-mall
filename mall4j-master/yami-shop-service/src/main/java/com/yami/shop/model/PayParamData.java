@@ -11,7 +11,7 @@ public class PayParamData {
 
     private String nonceStr;
     private String packageStr;
-    private String timestamp;
+    private String timeStamp;
     private String signType;
 
 
